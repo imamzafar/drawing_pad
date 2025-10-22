@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:drawing_pad}",
+            "name": "Debug DrawingPad",
+            "program": "${workspaceFolder:drawing_pad}/.build/debug/DrawingPad",
+            "preLaunchTask": "swift: Build Debug DrawingPad"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:drawing_pad}",
+            "name": "Release DrawingPad",
+            "program": "${workspaceFolder:drawing_pad}/.build/release/DrawingPad",
+            "preLaunchTask": "swift: Build Release DrawingPad"
+        }
+    ]
+}
