@@ -34,6 +34,29 @@ Setting `CLANG_MODULE_CACHE_PATH` keeps module caches inside the project (useful
 - `swift build --product DrawingPad` (with the same `CLANG_MODULE_CACHE_PATH` prefix) places the executable under `.build/<triple>/debug/DrawingPad`.
 - You can wrap the binary in a `.app` via Xcode, or continue launching with `swift run`.
 
+## Creating Downloadable Releases
+
+### Local packaging script
+Run the helper script to produce a signed `.app` bundle and zipped archive for the current or specified architecture:
+
+```bash
+# Intel build (default if you run on an Intel Mac)
+Scripts/package_app.sh --arch x86_64 --version 1.0.0
+
+# Apple Silicon build (run on an M-series Mac)
+Scripts/package_app.sh --arch arm64 --version 1.0.0
+```
+
+The script:
+- Builds `DrawingPad` in Release configuration for the requested architecture.
+- Assembles `DrawingPad.app` with a minimal `Info.plist` and ad-hoc code signature.
+- Produces `dist/DrawingPad-<version>-<arch>.zip`, ready to upload as a release asset.
+
+Run the script separately on an Intel and an Apple Silicon machine to offer both downloads, or combine the two binaries with `lipo` if you prefer a universal bundle.
+
+### GitHub release automation (optional)
+A workflow can generate tagged release artifacts for both architectures. After pushing a tag (`git tag v1.0.0 && git push origin v1.0.0`), GitHub actions on macOS-13 (Intel) and macOS-14 (Apple Silicon) will invoke the packaging script and attach `DrawingPad-<version>-x86_64.zip` and `DrawingPad-<version>-arm64.zip` to the release.
+
 ## Controls Recap
 - `D` — Toggle drawing (hover to draw while active).
 - `Space` — Temporarily pan; click-drag while held for precise moves.
